@@ -1,0 +1,6 @@
+# Extra python files
+*.pyc
+*.pyo
+
+# Extra c files
+*.o
