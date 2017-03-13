@@ -2,5 +2,6 @@
 *.pyc
 *.pyo
 
-# Extra c files
+# Extra c files (includes build .so module file)
 *.o
+*.so
