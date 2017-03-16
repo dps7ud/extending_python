@@ -1,3 +1,4 @@
+#include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -7,4 +8,4 @@ void bubble(int array[], int size);
 void print_array(int array[], int size);
 void merge(int left[], int lmax, int right[], int rmax);
 void sort(int array[], int size);
-void mt_sort(int array[], int size);
+void* mt_sort(void* param);

@@ -5,3 +5,4 @@
 # Extra c files (includes build .so module file)
 *.o
 *.so
+*.out
