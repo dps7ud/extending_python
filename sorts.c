@@ -1,10 +1,18 @@
 #include "sorts.h"
-
 #include <time.h>
 
 /* This file defines a series of sorting functions to be
     made available in our python module via the CPython C-API.
 */
+
+/* Parameter struct for mt_sort
+    base => integer array
+    length => length of section of *base* to sort
+*/
+typedef struct {
+    int *base;
+    int length;
+} Param;
 
 void bubble(int array[], int size){
     int unsorted = 1;
@@ -31,6 +39,7 @@ void print_array(int array[], int size){
     printf("%d\n", array[ii]);
 }
 
+/* Called from sort() and mt_sort() to merge sections of sorted arrays*/
 void merge(int left[], int lmax, int right[], int rmax){
     int loc = 0, ii = 0, jj = 0;
     int local[rmax + lmax];
@@ -50,30 +59,13 @@ void merge(int left[], int lmax, int right[], int rmax){
         left[ii] = local[ii];
 }
 
-void sort(int array[], int size){
-    if (size < 2)
-        return;
-    int mid = (int)(size / 2);
-    sort(array + mid, size - mid);
-    sort(array, mid);
-    merge(array, mid, array + mid, size - mid);
-}
-
-typedef struct {
-    int *base;
-    int length;
-} Param;
-
-int mt_wrapper(int* array, int len){
-    Param* param = malloc(sizeof(Param));
-    if (param == NULL) return -1;
-    param->base = array;
-    param->length = len;
-    mt_sort( (void*) param);
-    free(param);
-    return 0;
-}
-
+/* Multithreaded merge sort.
+    TODO: Currently, overhead of thread mgmt. outweighs any benefits of
+        multithreading. Limit the depth at which new threads can be created
+        and fall back to sort().
+    TODO: Running Ubuntu 16.04.2 LTS, lscpu shows one cpu when this is not the case.
+        Find out if OS is actually making use of multiple cores.
+*/
 void* mt_sort(void* input){
     Param* param = (Param*)input;
     int size = param->length;
@@ -107,5 +99,25 @@ void* mt_sort(void* input){
     free(l_param);
     free(r_param);
 
+    merge(array, mid, array + mid, size - mid);
+}
+
+/* Wrapper for calling mt_sort. Builtds Param struct and passes to mt_sort*/
+int mt_wrapper(int* array, int len){
+    Param* param = malloc(sizeof(Param));
+    if (param == NULL) return -1;
+    param->base = array;
+    param->length = len;
+    mt_sort( (void*) param);
+    free(param);
+    return 0;
+}
+
+void sort(int array[], int size){
+    if (size < 2)
+        return;
+    int mid = (int)(size / 2);
+    sort(array + mid, size - mid);
+    sort(array, mid);
     merge(array, mid, array + mid, size - mid);
 }
