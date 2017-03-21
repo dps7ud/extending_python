@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
 #include "sorts.h"
 
+/* Checks if *len* elements of *array* are in ascending order*/
 int verify(int* array, int len){
     int ii;
     if (len < 2)
@@ -16,6 +16,7 @@ int verify(int* array, int len){
     return 1;
 }
 
+/* Constructs testcases of length *len* in *array**/
 void build_case(int* array, int len, int reverse){
     int ii;
     /* If reverse, build the array [len, ..., 1]*/

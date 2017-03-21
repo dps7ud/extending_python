@@ -14,6 +14,7 @@ typedef struct {
     int length;
 } Param;
 
+/* Defines bubble sort*/
 void bubble(int array[], int size){
     int unsorted = 1;
     int ii;
@@ -113,6 +114,7 @@ int mt_wrapper(int* array, int len){
     return 0;
 }
 
+/* Naive merge sort*/
 void sort(int array[], int size){
     if (size < 2)
         return;

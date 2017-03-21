@@ -73,11 +73,12 @@ PyMODINIT_FUNC PyInit__sorts(){
 }
 
 
-/* Module function definitions.*/
-static PyObject *_sorts_naive_merge_c(PyObject *self, PyObject *args){
-    /* Wrapper for the function in sorts.c that defines 
-        a naive (single threaded) merge sort.
-    */
+        /* Module function definitions.*/
+
+/* Wrapper for the function in sorts.c that defines 
+    a bubble sort.
+*/
+static PyObject *_sorts_bubble_c(PyObject *self, PyObject *args){
     int ii;
     PyObject *input_obj;
     if (!PyArg_ParseTuple(args, "O", &input_obj))
@@ -100,7 +101,7 @@ static PyObject *_sorts_naive_merge_c(PyObject *self, PyObject *args){
             array[ii] = a;
         }
     }
-    sort(array, (int)len);
+    bubble(array, (int)len);
     PyObject* result = PyList_New(len);
     PyObject* number;
     for(ii = 0; ii < len; ii++){
@@ -112,10 +113,10 @@ static PyObject *_sorts_naive_merge_c(PyObject *self, PyObject *args){
     return result;
 }
 
+/* Wrapper for the function in sorts.c that defines 
+    a multi-threaded merge sort.
+*/
 static PyObject *_sorts_mt_merge_c(PyObject *self, PyObject *args){
-    /* Wrapper for the function in sorts.c that defines 
-        a multi-threaded merge sort.
-    */
     int ii;
     PyObject *input_obj;
     if (!PyArg_ParseTuple(args, "O", &input_obj))
@@ -150,10 +151,10 @@ static PyObject *_sorts_mt_merge_c(PyObject *self, PyObject *args){
     return result;
 }
 
-static PyObject *_sorts_bubble_c(PyObject *self, PyObject *args){
-    /* Wrapper for the function in sorts.c that defines 
-        a bubble sort.
-    */
+/* Wrapper for the function in sorts.c that defines 
+    a naive (single threaded) merge sort.
+*/
+static PyObject *_sorts_naive_merge_c(PyObject *self, PyObject *args){
     int ii;
     PyObject *input_obj;
     if (!PyArg_ParseTuple(args, "O", &input_obj))
@@ -176,7 +177,7 @@ static PyObject *_sorts_bubble_c(PyObject *self, PyObject *args){
             array[ii] = a;
         }
     }
-    bubble(array, (int)len);
+    sort(array, (int)len);
     PyObject* result = PyList_New(len);
     PyObject* number;
     for(ii = 0; ii < len; ii++){
@@ -187,3 +188,4 @@ static PyObject *_sorts_bubble_c(PyObject *self, PyObject *args){
     }
     return result;
 }
+
