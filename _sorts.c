@@ -15,9 +15,9 @@ static char bubble_docstring[] = "C bubble sort implementation";
 static char naive_merge_docstring[] = "Naive C merge sort implementation";
 static char naive_mt_docstring[] = "Multi-threaded C merge sort implementation";
 
-static PyObject *_sorts_naive_merge(PyObject *self, PyObject *args);
-static PyObject *_sorts_mt_merge(PyObject *self, PyObject *args);
-static PyObject *_sorts_bubble(PyObject *self, PyObject *args);
+static PyObject *_sorts_naive_merge_c(PyObject *self, PyObject *args);
+static PyObject *_sorts_mt_merge_c(PyObject *self, PyObject *args);
+static PyObject *_sorts_bubble_c(PyObject *self, PyObject *args);
 
 #define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
 
@@ -29,9 +29,9 @@ static PyObject* error_out(PyObject *m){
 
 static PyMethodDef _sorts_methods[] = {
     {"error_out", (PyCFunction)error_out, METH_VARARGS, NULL},
-    {"bubble", _sorts_bubble, METH_VARARGS, bubble_docstring},
-    {"naive_merge", _sorts_naive_merge, METH_VARARGS, naive_merge_docstring},
-    {"mt_merge", _sorts_mt_merge, METH_VARARGS, naive_mt_docstring},
+    {"bubble_c", _sorts_bubble_c, METH_VARARGS, bubble_docstring},
+    {"naive_merge_c", _sorts_naive_merge_c, METH_VARARGS, naive_merge_docstring},
+    {"mt_merge_c", _sorts_mt_merge_c, METH_VARARGS, naive_mt_docstring},
     {NULL, NULL, 0, NULL}
 };
 
@@ -74,7 +74,7 @@ PyMODINIT_FUNC PyInit__sorts(){
 
 
 /* Module function definitions.*/
-static PyObject *_sorts_naive_merge(PyObject *self, PyObject *args){
+static PyObject *_sorts_naive_merge_c(PyObject *self, PyObject *args){
     /* Wrapper for the function in sorts.c that defines 
         a naive (single threaded) merge sort.
     */
@@ -112,7 +112,7 @@ static PyObject *_sorts_naive_merge(PyObject *self, PyObject *args){
     return result;
 }
 
-static PyObject *_sorts_mt_merge(PyObject *self, PyObject *args){
+static PyObject *_sorts_mt_merge_c(PyObject *self, PyObject *args){
     /* Wrapper for the function in sorts.c that defines 
         a multi-threaded merge sort.
     */
@@ -138,7 +138,7 @@ static PyObject *_sorts_mt_merge(PyObject *self, PyObject *args){
             array[ii] = a;
         }
     }
-    mt_sort(array, (int)len);
+    mt_wrapper(array, (int)len);
     PyObject* result = PyList_New(len);
     PyObject* number;
     for(ii = 0; ii < len; ii++){
@@ -150,7 +150,7 @@ static PyObject *_sorts_mt_merge(PyObject *self, PyObject *args){
     return result;
 }
 
-static PyObject *_sorts_bubble(PyObject *self, PyObject *args){
+static PyObject *_sorts_bubble_c(PyObject *self, PyObject *args){
     /* Wrapper for the function in sorts.c that defines 
         a bubble sort.
     */

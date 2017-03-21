@@ -1,15 +1,15 @@
 """ This file defines two functions that, together, define a naively
 written merge sort.
 """
-def naive(list_in):
+def merge_sort_python(list_in):
     """ Makes recursive calls to split list into 
-        sub problems, unless list has few elements.
+        sub parts, unless list has few elements.
         Also calls merge to combine solns to said problems.
     """
     if len(list_in) < 2:
         return list_in
     mid = len(list_in) // 2
-    return merge(naive(list_in[:mid]), naive(list_in[mid:]))
+    return merge(merge_sort_python(list_in[:mid]), merge_sort_python(list_in[mid:]))
 
 def merge(left, right):
     """ Combines two sorted lists into one."""
