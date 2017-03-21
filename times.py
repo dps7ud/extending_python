@@ -31,3 +31,4 @@ if __name__ == "__main__":
     for sort_function in sort_functions:
         results = many_runs(sort_function)
         print(*results, sep='\n')
+        print()
