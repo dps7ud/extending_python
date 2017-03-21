@@ -61,7 +61,7 @@ void sort(int array[], int size){
 
 typedef struct {
     int *base;
-    int length
+    int length;
 } Param;
 
 int mt_wrapper(int* array, int len){
