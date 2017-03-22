@@ -9,6 +9,7 @@
     base => integer array
     length => length of section of *base* to sort
 */
+void* sort_wrapper(void* input);
 typedef struct {
     int *base;
     int length;
@@ -89,8 +90,10 @@ void* mt_sort(void* input){
     r_param->base = array + mid;
     r_param->length = size - mid;
 
-    l_resp = pthread_create(&left, NULL, mt_sort, (void *) l_param);
-    r_resp = pthread_create(&right, NULL, mt_sort, (void *) r_param);
+    l_resp = pthread_create(&left, NULL, sort_wrapper, (void *) l_param);
+    r_resp = pthread_create(&right, NULL, sort_wrapper, (void *) r_param);
+//    l_resp = pthread_create(&left, NULL, mt_sort, (void *) l_param);
+//    r_resp = pthread_create(&right, NULL, mt_sort, (void *) r_param);
     if(r_resp)
         printf("ERROR: pthread_create(right) returned code %d\n", r_resp);
     if(l_resp)
@@ -112,6 +115,13 @@ int mt_wrapper(int* array, int len){
     mt_sort( (void*) param);
     free(param);
     return 0;
+}
+
+void* sort_wrapper(void* input){
+    Param* param = (Param*)input;
+    if (param->length < 2) return NULL;
+    sort(param->base, param->length);
+    return NULL;
 }
 
 /* Naive merge sort*/

@@ -12,7 +12,7 @@ def setup(length):
     """ Generates a list of non-negative floats less than 100 of length *length*"""
     return [float(random.randrange(100)) for x in range(length)]
 
-def single_run(sort_func, in_order, list_length=100):
+def single_run(sort_func, in_order, list_length=10000):
     """ Times sorting of list and assignment to variable."""
     lst = setup(list_length)
     if in_order:
