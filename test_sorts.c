@@ -39,8 +39,8 @@ int main(){
         int case_length = cases[ii];
         int passed;
         build_case(to_sort, case_length, 1);
-//        mt_wrapper(to_sort, case_length);
-        sort(to_sort, case_length);
+        mt_wrapper(to_sort, case_length);
+//        sort(to_sort, case_length);
         passed = verify(to_sort, case_length);
         if (!passed)
             print_array(to_sort, case_length);

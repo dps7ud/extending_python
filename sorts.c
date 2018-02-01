@@ -72,7 +72,7 @@ void* mt_sort(void* input){
     Param* param = (Param*)input;
     int size = param->length;
     if (size < 2)
-        return (void*) 0;
+        return NULL;
     int *array = param->base;
     int l_resp, r_resp;
     int mid = (int)(size / 2);
